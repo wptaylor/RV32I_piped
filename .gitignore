@@ -1,0 +1,6 @@
+# Quartus II
+synthesis/*
+
+# ModelSim
+simulation/work/
+simulation/vsim.wlf
