@@ -50,14 +50,14 @@ task set_instruction(
     input logic [31:0] r1_addr,
     input logic [31:0] r2_addr,
     input logic [31:0] rw_addr,
-    input logic op //0 = add, 1 = sub
+    input logic alu_op //0 = add, 1 = sub
 );
     instr = 0;
     instr[19:15] = r1_addr;
     instr[24:20] = r2_addr;
     instr[11:7] = rw_addr;
     instr[6:0] = 7'b0110011; //OP
-    instr[30] = op;
+    instr[30] = alu_op;
 endtask
 
 endmodule
