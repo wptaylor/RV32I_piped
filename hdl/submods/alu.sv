@@ -5,12 +5,11 @@
 // Supports bitwise XOR, OR, AND
 
 //`include "alu_codes.svh"
-
 module alu(
-    input logic [2:0] op,
-    input logic [31:0] in1,
-    input logic [31:0] in2,
-    output logic [31:0] out
+    input logic [3:0] op,
+    input logic signed [31:0] in1,
+    input logic signed [31:0] in2,
+    output logic signed [31:0] out
 );
 
     //From "alu_codes.svh"
@@ -23,6 +22,9 @@ module alu(
             ALU_OP::ALU_XOR:    out = in1 ^ in2;
             ALU_OP::ALU_OR:     out = in1 | in2;
             ALU_OP::ALU_AND:    out = in1 & in2;
+            ALU_OP::ALU_SLL:    out = in1 << in2;
+            ALU_OP::ALU_SRL:    out = in1 >> in2;
+            ALU_OP::ALU_SRA:    out = in1 >>> in2;
             default:            out = 0; //Error signal goes here in future.
         endcase
     end

@@ -16,7 +16,7 @@ module decoder(
     output logic [4:0] rf_reg1,
     output logic [4:0] rf_reg2,
     output logic [4:0] rf_regw,
-    output logic [2:0] alu_op
+    output logic [3:0] alu_op
 );
 
 //From "instructions.svh"
@@ -48,17 +48,17 @@ always_comb begin
                         RTYPE::XOR:     alu_op = ALU_OP::ALU_XOR;
                         RTYPE::OR:      alu_op = ALU_OP::ALU_OR;
                         RTYPE::AND:     alu_op = ALU_OP::ALU_AND;
-                        RTYPE::SLL:     begin end
+                        RTYPE::SLL:     alu_op = ALU_OP::ALU_SLL;
                         RTYPE::SLT:     begin end
                         RTYPE::SLTU:    begin end
-                        RTYPE::SRL:     begin end
+                        RTYPE::SRL:     alu_op = ALU_OP::ALU_SRL;
                         default:        begin end //Error signal goes here in future.
                     endcase
                 end
                 RTYPE::RB: begin
                     case (instr[14:12])
                         RTYPE::SUB:     alu_op = ALU_OP::ALU_SUB;
-                        RTYPE::SRA:     begin end
+                        RTYPE::SRA:     alu_op = ALU_OP::ALU_SRA;
                         default:        begin end //Error signal goes here in future.
                     endcase
                 end

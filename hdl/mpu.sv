@@ -18,7 +18,7 @@ module mpu #(
 // ------- Control -------- //
 logic rf_write;
 logic alubuf1_load, alubuf2_load;
-logic [2:0] alu_op;
+logic [3:0] alu_op;
 
 logic [4:0] r1_addr, r2_addr, rw_addr;
 
