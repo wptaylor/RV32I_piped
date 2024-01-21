@@ -9,15 +9,15 @@
 
 
 //register initial values
-`define R1_INIT (-32'd835)
-`define R2_INIT (32'd2)
+`define R1_INIT (32'd209)
+`define R2_INIT (-32'd208)
 
 //add r3, r1, r2
 `define R1_ADDR (5'd1)
 `define R2_ADDR (5'd2)
 `define RW_ADDR (5'd3)
 
-`define OP      (ALU_OP::ALU_SRA)
+`define OP      (ALU_OP::ALU_SLTU)
 
 
 module mpu_tb;
@@ -59,7 +59,7 @@ task set_instruction(
     input logic [31:0] r1_addr,
     input logic [31:0] r2_addr,
     input logic [31:0] rw_addr,
-    input logic [2:0]  alu_op
+    input logic [3:0]  alu_op
 );
     instr = 0;
     instr[19:15] = r1_addr;
@@ -74,6 +74,8 @@ task set_instruction(
         ALU_OP::ALU_SLL:    instr[14:12] = RTYPE::SLL;
         ALU_OP::ALU_SRL:    instr[14:12] = RTYPE::SRL;
         ALU_OP::ALU_SRA:    instr[14:12] = RTYPE::SRA;
+        ALU_OP::ALU_SLT:    instr[14:12] = RTYPE::SLT;
+        ALU_OP::ALU_SLTU:   instr[14:12] = RTYPE::SLTU;
         default:            begin end
     endcase
     //Case here might compile inefficiently, but shouldn't matter for testing.

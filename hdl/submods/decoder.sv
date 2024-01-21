@@ -49,8 +49,8 @@ always_comb begin
                         RTYPE::OR:      alu_op = ALU_OP::ALU_OR;
                         RTYPE::AND:     alu_op = ALU_OP::ALU_AND;
                         RTYPE::SLL:     alu_op = ALU_OP::ALU_SLL;
-                        RTYPE::SLT:     begin end
-                        RTYPE::SLTU:    begin end
+                        RTYPE::SLT:     alu_op = ALU_OP::ALU_SLT;
+                        RTYPE::SLTU:    alu_op = ALU_OP::ALU_SLTU;
                         RTYPE::SRL:     alu_op = ALU_OP::ALU_SRL;
                         default:        begin end //Error signal goes here in future.
                     endcase

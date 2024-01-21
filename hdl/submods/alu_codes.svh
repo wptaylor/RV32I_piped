@@ -15,6 +15,8 @@ package ALU_OP;
         ALU_AND,
         ALU_SLL,
         ALU_SRL,
-        ALU_SRA
+        ALU_SRA,
+        ALU_SLT,
+        ALU_SLTU
     } alu_op;
 endpackage

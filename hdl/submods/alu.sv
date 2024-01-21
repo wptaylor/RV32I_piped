@@ -25,6 +25,8 @@ module alu(
             ALU_OP::ALU_SLL:    out = in1 << in2;
             ALU_OP::ALU_SRL:    out = in1 >> in2;
             ALU_OP::ALU_SRA:    out = in1 >>> in2;
+            ALU_OP::ALU_SLT:    out = in1 < in2;
+            ALU_OP::ALU_SLTU:   out = in1[31:0] < in2[31:0]; // Hacky unsigned comparison
             default:            out = 0; //Error signal goes here in future.
         endcase
     end
