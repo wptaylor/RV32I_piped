@@ -4,6 +4,11 @@
 
 //TODO: Implement all RV32I instructions
 //TODO: Add error checking with an error output for unsupported instructions
+
+//`include "instructions.svh"
+//`include "alu_codes.svh"
+
+
 module decoder(
     input logic clock,
     input logic reset,
@@ -11,40 +16,59 @@ module decoder(
     output logic [4:0] rf_reg1,
     output logic [4:0] rf_reg2,
     output logic [4:0] rf_regw,
-    output logic alu_op
+    output logic [3:0] alu_op
 );
 
-//TODO: Rest of the opcodes
-typedef enum bit[6:0] {
-    OP      = 7'b0110011,
-    OP_IMM  = 7'b0010011
-} opcode;
+//From "instructions.svh"
+import OPCODES::*;
+import RTYPE::*;
 
-typedef enum bit {  
-    ALU_ADD = 1'b0,
-    ALU_SUB = 1'b1
-} ALU_OP;
+//From "alu_codes.svh"
+import ALU_OP::*;
+
 
 always_comb begin
     //Default
-    rf_reg1                 = 5'b0;
-    rf_reg2                 = 5'b0;
-    rf_regw                 = 5'b0;
-    alu_op                  = 1'b0;
+    rf_reg1                 = 0;
+    rf_reg2                 = 0;
+    rf_regw                 = 0;
+    alu_op                  = 0;
 
     //Override
     if (reset) begin end //Keep default
     else case (instr[6:0])
         OP: begin
-            rf_reg1         = instr[19:15];
-            rf_reg2         = instr[24:20];
-            rf_regw         = instr[11:7];
-            alu_op          = instr[30] ? ALU_SUB : ALU_ADD;
+            rf_reg1 = instr[19:15];
+            rf_reg2 = instr[24:20];
+            rf_regw = instr[11:7];
+            case (instr[31:25])
+                RTYPE::RA: begin
+                    case (instr[14:12])
+                        RTYPE::ADD:     alu_op = ALU_OP::ALU_ADD;
+                        RTYPE::XOR:     alu_op = ALU_OP::ALU_XOR;
+                        RTYPE::OR:      alu_op = ALU_OP::ALU_OR;
+                        RTYPE::AND:     alu_op = ALU_OP::ALU_AND;
+                        RTYPE::SLL:     alu_op = ALU_OP::ALU_SLL;
+                        RTYPE::SLT:     alu_op = ALU_OP::ALU_SLT;
+                        RTYPE::SLTU:    alu_op = ALU_OP::ALU_SLTU;
+                        RTYPE::SRL:     alu_op = ALU_OP::ALU_SRL;
+                        default:        begin end //Error signal goes here in future.
+                    endcase
+                end
+                RTYPE::RB: begin
+                    case (instr[14:12])
+                        RTYPE::SUB:     alu_op = ALU_OP::ALU_SUB;
+                        RTYPE::SRA:     alu_op = ALU_OP::ALU_SRA;
+                        default:        begin end //Error signal goes here in future.
+                    endcase
+                end
+                default: begin end //Error signal goes here in future.
+            endcase
         end
         OP_IMM: begin
             //TODO: Implement
         end
-        default: begin end //Keep default. Error signal goes here in future.
+        default: begin end //Error signal goes here in future.
     endcase
 end
 

@@ -1,1 +1,2 @@
 *.do linguist-language=Tcl
+*.svh linguist-language=SystemVerilog
