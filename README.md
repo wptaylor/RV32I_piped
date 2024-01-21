@@ -2,7 +2,7 @@
 WIP pipelined implementation of the RISC-V RV32I instruction set architecture.
 
 ## Current Instruction Support
-• ADD/SUB
+• R-Type: ADD/SUB/XOR/OR/AND/SLT/SLTU/SLL/SRL/SRA.
 
 ## Current Modules
 • Instruction Decoder
@@ -14,9 +14,11 @@ WIP pipelined implementation of the RISC-V RV32I instruction set architecture.
 • Finite State Machine
 
 ## Testbench Status
-• Barebone SystsemVerilog unit
+• Barebone SystsemVerilog unit.
+
+• Parameters manually declared before compilation.
 
 ## Immediate Next Steps
-• Support the rest of R-type instructions
+• Support I-type instructions.
 
-• Support I-type instructions   
+• Clean up and expand testbench.
