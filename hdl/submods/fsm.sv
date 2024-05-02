@@ -18,7 +18,7 @@ typedef enum bit[2:0] {
     ERROR       = 3'b000,
     RESET       = 3'b001,
     C1_DECODE   = 3'b010,
-    C2_ADDSUB   = 3'b011
+    C2_ALUOP    = 3'b011
 } state;
 
 always_ff @(posedge clock) begin
@@ -27,8 +27,8 @@ always_ff @(posedge clock) begin
         case (cstate)
             ERROR:      cstate <= ERROR;
             RESET:      cstate <= C1_DECODE;
-            C1_DECODE:  cstate <= C2_ADDSUB;
-            C2_ADDSUB:  cstate <= C1_DECODE;
+            C1_DECODE:  cstate <= C2_ALUOP;
+            C2_ALUOP:   cstate <= C1_DECODE;
 			default:    cstate <= ERROR;
         endcase
     end
@@ -37,9 +37,9 @@ end
 //TODO: Move instruction slicing to the datapath with multiplexers.
 always_comb begin
     //Default
-    rf_write                = 1'b0;
-    alubuf1_load            = 1'b0;
-    alubuf2_load            = 1'b0;
+    rf_write                = 0;
+    alubuf1_load            = 0;
+    alubuf2_load            = 0;
 
     //Override
     case (cstate)
@@ -48,7 +48,7 @@ always_comb begin
             alubuf1_load    = 1'b1;
             alubuf2_load    = 1'b1;
         end
-        C2_ADDSUB: begin
+        C2_ALUOP: begin
             rf_write        = 1'b1;
         end
         default: begin end
