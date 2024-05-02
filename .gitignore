@@ -4,3 +4,6 @@ synthesis/*
 # ModelSim
 simulation/work/
 simulation/vsim.wlf
+
+# VSCode
+*.code-workspace
