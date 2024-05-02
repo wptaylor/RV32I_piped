@@ -34,7 +34,6 @@ always_ff @(posedge clock) begin
     end
 end
 
-//TODO: Move instruction slicing to the datapath with multiplexers.
 always_comb begin
     //Default
     rf_write                = 0;
