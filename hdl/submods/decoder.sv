@@ -16,12 +16,16 @@ module decoder(
     output logic [4:0] rf_reg1,
     output logic [4:0] rf_reg2,
     output logic [4:0] rf_regw,
-    output logic [3:0] alu_op
+    output logic [3:0] alu_op,
+    output INSTRUCTION::instruction_type instr_type,
+    output logic [11:0] immediate_itype
 );
 
 //From "instructions.svh"
+import INSTRUCTION::*;
 import OPCODES::*;
 import RTYPE::*;
+import ITYPE::*;
 
 //From "alu_codes.svh"
 import ALU_OP::*;
@@ -29,10 +33,11 @@ import ALU_OP::*;
 
 always_comb begin
     //Default
-    rf_reg1                 = 0;
-    rf_reg2                 = 0;
-    rf_regw                 = 0;
-    alu_op                  = 0;
+    rf_reg1         = 0;
+    rf_reg2         = 0;
+    rf_regw         = 0;
+    alu_op          = 0;
+    immediate_itype = 0;
 
     //Override
     if (reset) begin end //Keep default
@@ -66,7 +71,10 @@ always_comb begin
             endcase
         end
         OP_IMM: begin
-            //TODO: Implement
+            rf_reg1 = instr[19:15];
+            rf_regw = instr[11:7];
+            immediate_itype = instr[31:20];
+            //TODO: Case statements.
         end
         default: begin end //Error signal goes here in future.
     endcase
